@@ -6,8 +6,8 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
-(setq user-full-name "John Doe"
-      user-mail-address "john@doe.com")
+(setq user-full-name "Mehdi Hossieni"
+      user-mail-address "mahdihossieni@gmail.com")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
@@ -19,13 +19,13 @@
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(setq doom-font (font-spec :family "monospace" :size 14 :weight 'semi-light)
-       doom-variable-pitch-font (font-spec :family "sans" :size 13))
+;;(setq doom-font (font-spec :family "monospace" :size 14 :weight 'semi-light)
+       ;doom-variable-pitch-font (font-spec :family "sans" :size 13))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-spacegrey)
+(setq doom-theme 'doom-one)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -53,4 +53,37 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 ;;
+;; this is the projectile projects to search for
 (setq projectile-project-search-path '("~/projects" "~/Documents/recruites/"))
+
+;; configurring doom to open in full screen mode every time
+(add-hook 'window-setup-hook #'toggle-frame-fullscreen)
+
+;; setting the font and ligatures
+(setq doom-font (font-spec :family "Fira Code" :size 16))
+
+;; config for the python-black package
+(use-package! python-black
+  :demand t
+  :after python
+  :hook (python-mode . python-black-on-save-mode)
+)
+
+;; prretier-js is the package for auto formating js and html
+(use-package prretier-js
+  :after js2-mode
+  :init
+  (add-hook 'js2-mode-hook 'prretier-js-mode)
+  (add-hook 'web-mode-hook 'prretier-js-mode)
+  :config
+  (setq prretier-js-args '("--trailing-comma" "all"
+                           "--bracket-spacing" "false"))
+  (setq prretier-js-width-mode 'fill-column)
+  (defun enable-minor-mode (my-pair)
+        "Enable minor mode if filename match the regexp.  MY-PAIR is a cons cell (regexp . minor-mode)."
+        (if (buffer-file-name)
+            (if (string-match (car my-pair) buffer-file-name)
+                (funcall (cdr my-pair)))))
+  (add-hook 'web-mode-hook #'(lambda ()
+                               (enable-minor-mode
+                                '("\\.jsx?\\'" . prettier-js-mode)))))
