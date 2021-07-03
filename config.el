@@ -57,33 +57,13 @@
 (setq projectile-project-search-path '("~/projects" "~/Documents/recruites/"))
 
 ;; configurring doom to open in full screen mode every time
-(add-hook 'window-setup-hook #'toggle-frame-fullscreen)
+;;(add-hook 'window-setup-hook #'toggle-frame-fullscreen)
 
 ;; setting the font and ligatures
 (setq doom-font (font-spec :family "Fira Code" :size 16))
 
 ;; config for the python-black package
-(use-package! python-black
+(use-package python-black
   :demand t
   :after python
-  :hook (python-mode . python-black-on-save-mode)
-)
-
-;; prretier-js is the package for auto formating js and html
-(use-package prretier-js
-  :after js2-mode
-  :init
-  (add-hook 'js2-mode-hook 'prretier-js-mode)
-  (add-hook 'web-mode-hook 'prretier-js-mode)
-  :config
-  (setq prretier-js-args '("--trailing-comma" "all"
-                           "--bracket-spacing" "false"))
-  (setq prretier-js-width-mode 'fill-column)
-  (defun enable-minor-mode (my-pair)
-        "Enable minor mode if filename match the regexp.  MY-PAIR is a cons cell (regexp . minor-mode)."
-        (if (buffer-file-name)
-            (if (string-match (car my-pair) buffer-file-name)
-                (funcall (cdr my-pair)))))
-  (add-hook 'web-mode-hook #'(lambda ()
-                               (enable-minor-mode
-                                '("\\.jsx?\\'" . prettier-js-mode)))))
+  :hook (python-mode . python-black-on-save-mode))
