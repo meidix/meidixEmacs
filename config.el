@@ -19,7 +19,19 @@
 ;; setting the projectile directories to search for projects
 (setq projectile-project-search-path '("~/projects" "~/Documents/recruites/"))
 
-(use-package python-black
+(use-package! python-black
   :demand t
   :after python
   :hook (python-mode . python-black-on-save-mode))
+
+;; the python virtualenv package to find the virtualenvironment
+(use-package! auto-virtualenv
+  :demand t
+  :after python
+  :hook (python-mode 'auto-virtualenv-set-virtualenv))
+
+;; the jedi package which is a python server and auto complete package
+(use-package! jedi
+  :demand t
+  :after python
+  :hook ('python-mode-hook 'jedi:setup))

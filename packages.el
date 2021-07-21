@@ -50,3 +50,5 @@
 ;(unpin! t)
 (package! python-black)
 (package! fira-code-mode)
+(package! auto-virtualenv)
+(package! jedi)
