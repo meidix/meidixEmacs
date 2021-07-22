@@ -25,13 +25,20 @@
   :hook (python-mode . python-black-on-save-mode))
 
 ;; the python virtualenv package to find the virtualenvironment
-(use-package! auto-virtualenv
-  :demand t
-  :after python
-  :hook (python-mode 'auto-virtualenv-set-virtualenv))
+;;(use-package! auto-virtualenv
+;;  :demand t
+;;  :after python
+;;  :hook ('python-mode-hook 'auto-virtualenv-set-virtualenv))
 
 ;; the jedi package which is a python server and auto complete package
 (use-package! jedi
   :demand t
   :after python
   :hook ('python-mode-hook 'jedi:setup))
+
+(global-auto-complete-mode t)
+
+;;enabling python evaluation in org mode
+(org-babel-do-load-languages
+ 'org-babe-load-languages
+ '((python . t)))
